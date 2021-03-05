@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import axios from 'axios';
+import { updateUser } from '../../redux/reducer'
 import logo from './../../assets/helo_logo.png';
 import './Auth.css';
 
@@ -22,9 +24,13 @@ class Auth extends Component {
   }
 
   login() {
+    console.log("hitting this11")
     axios.post('/api/auth/login', this.state)
       .then(res => {
-        //code here
+        console.log("hitting this333")
+        console.log(res.data)
+        this.props.updateUser(res.data)
+        this.props.history.push('/dash')
       })
       .catch(err => {
         console.log(err)
@@ -33,9 +39,13 @@ class Auth extends Component {
   }
 
   register() {
+    console.log("hitting this1")
     axios.post('/api/auth/register', this.state)
       .then(res => {
-        //code here
+        console.log("hitting this2")
+        console.log(res.data)
+        this.props.updateUser(res.data)
+        this.props.history.push('/dash')
       })
       .catch(err => {
         console.log(err)
@@ -52,6 +62,7 @@ class Auth extends Component {
   }
 
   render() {
+    console.log("HELLO?")
     return (
       <div className='auth'>
         <div className='auth-container'>
@@ -76,4 +87,8 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+const mapDispatchToProps = {
+  updateUser
+}
+
+export default connect(null, mapDispatchToProps)(Auth);
